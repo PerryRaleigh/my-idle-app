@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
   declarations: [
@@ -12,6 +13,7 @@ import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
   imports: [
     BrowserModule,
     HttpClientModule,
+    MomentModule,
     NgIdleKeepaliveModule.forRoot(),
   ],
   providers: [],
