@@ -1,4 +1,24 @@
+<div *ngIf="idleStart" mat-dialog-content>
+  <header>
+    <h1 mat-dialog-title>Stay Logged In?</h1>
+  </header>
+  <p>
+    Due to inactivity, we're about to automatically log you out to help protect
+    your security.
+  </p>
+  <p *ngIf="idle.onTimeoutWarning | async as countdown">
+    <strong>You will time out in {{ countdown }} seconds!</strong>
+  </p>
+  <div mat-dialog-actions align="end">
+    <button mat-raised-button color="primary">Log Out</button>
+    <button mat-raised-button color="warn">Stay Logged In</button>
+  </div>
+</div>
+
 <!-- rest of your app omitted for brevity -->
-<p><strong>{{idleState}}</strong></p>
-<p *ngIf="lastPing"><small>Last keepalive ping <strong>{{lastPing | amTimeAgo}}</strong></small></p>
+<p *ngIf="lastPing">
+  <small
+    >Last keepalive ping <strong>{{ lastPing | amTimeAgo }}</strong></small
+  >
+</p>
 <button (click)="reset()">Restart</button>

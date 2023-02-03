@@ -13,13 +13,14 @@ export class AppComponent implements OnInit {
   title = 'my-idle-app';
   // some fields to store our state so we can display it in the UI
   idleState = 'Not started.';
+  idleStart = false;
   timedOut = false;
   lastPing?: Date = new Date();
   private idleSeconds: number = 10;
-  private timeoutSeconds: number = 5;
+  private timeoutSeconds: number = 15;
   private keepalivePing: number = 5;
 
-  constructor(private idle: Idle, keepalive: Keepalive, private matdialog: MatDialog) {
+  constructor(public idle: Idle, keepalive: Keepalive, private matdialog: MatDialog) {
     // sets an idle timeout of 30 seconds, for testing purposes.
     this.idle.setIdle(this.idleSeconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
@@ -40,16 +41,16 @@ export class AppComponent implements OnInit {
 
     // do something when the user becomes idle
     this.idle.onIdleStart.subscribe(() => {
-      this.openIdleDialog();
+      this.idleStart = true;
     });
 
     // do something as the timeout countdown does its thing
     // idle.onTimeoutWarning.subscribe((seconds) => (`Countdown: ${this.countdown = seconds}`));
 
-    idle.onTimeoutWarning.subscribe(
-      (countdown) =>
-        (this.idleState = 'You will time out in ' + countdown + ' seconds!')
-    );
+    // idle.onTimeoutWarning.subscribe(
+    //   (countdown) =>
+    //     (this.idleState = 'You will time out in ' + countdown + ' seconds!')
+    // );
 
     // set keepalive parameters, omit if not using keepalive
     // will ping at this interval while not idle, in seconds
