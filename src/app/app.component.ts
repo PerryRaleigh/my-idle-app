@@ -1,6 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
+import { IdleDialogComponent } from './idle-dialog/idle-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +15,11 @@ export class AppComponent implements OnInit {
   idleState = 'Not started.';
   timedOut = false;
   lastPing?: Date = new Date();
-  private idleSeconds: number = 20;
+  private idleSeconds: number = 10;
   private timeoutSeconds: number = 5;
-  private keepalivePing: number = 15;
+  private keepalivePing: number = 5;
 
-  constructor(private idle: Idle, keepalive: Keepalive, cd: ChangeDetectorRef) {
+  constructor(private idle: Idle, keepalive: Keepalive, private matdialog: MatDialog) {
     // sets an idle timeout of 30 seconds, for testing purposes.
     this.idle.setIdle(this.idleSeconds);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
@@ -38,7 +40,7 @@ export class AppComponent implements OnInit {
 
     // do something when the user becomes idle
     this.idle.onIdleStart.subscribe(() => {
-      this.idleState = `You've gone idle!`;
+      this.openIdleDialog();
     });
 
     // do something as the timeout countdown does its thing
@@ -59,7 +61,7 @@ export class AppComponent implements OnInit {
 
   reset() {
     // we'll call this method when we want to start/reset the idle process
-    // reset any component state and be sure to call idle.watch()
+    // reset any component state and call idle.watch()
     this.idle.watch();
     this.idleState = 'Started.';
     this.timedOut = false;
@@ -68,5 +70,11 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     // right when the component initializes, start reset state and start watching
     this.reset();
+  }
+
+  openIdleDialog() {
+    const idleDialog = this.matdialog.open(IdleDialogComponent, {
+      width: '30%'
+    });
   }
 }

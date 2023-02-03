@@ -1,0 +1,14 @@
+<div mat-dialog-content>
+  <header>
+    <h1 mat-dialog-title>Stay Logged In?</h1>
+  </header>
+  <p>Due to inactivity, we're about to automatically log you out to help protect your security.</p>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="logOut()">
+    Log Out
+  </button>
+  <button mat-raised-button color="warn"  (click)="stayLoggedIn()">
+    Stay Logged In
+  </button>
+</div>
